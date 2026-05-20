@@ -1,0 +1,57 @@
+package com.kefu.administrator.controller;
+
+import com.kefu.administrator.domain.dto.AdminDto;
+import com.kefu.administrator.domain.po.Administrator;
+import com.kefu.administrator.domain.vo.AdminVo;
+import com.kefu.administrator.service.AdminService;
+import com.kefu.icsscommon.utils.BeanUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+@Tag(name = "管理员相关接口")
+@RestController
+@RequestMapping("/admin/administrator")
+@RequiredArgsConstructor
+@Slf4j
+public class AdminController {
+
+    private final AdminService adminService;
+
+    @Operation(summary = "新增管理员列表")
+    @PostMapping
+    public void saveAdmin(@RequestBody AdminDto adminDto) {
+        log.info("新增管理员列表 -> ");
+        // 新增
+        adminService.save(BeanUtils.copyBean(adminDto, Administrator.class));
+    }
+
+    @Operation(summary = "删除管理员")
+    @DeleteMapping("/{id}")
+    public void deleteAdmin(@PathVariable Long id) {
+        log.info("删除管理员 -> ");
+        // 删除
+        adminService.removeById(id);
+    }
+
+    @Operation(summary = "查询管理员列表")
+    @GetMapping("/{id}")
+    public AdminVo queryAdminById(@PathVariable Long id) {
+        log.info("查询管理员列表 -> ");
+        // 查询
+        return BeanUtils.copyBean(adminService.getById(id), AdminVo.class);
+    }
+
+    @Operation(summary = "更新管理员列表")
+    @PutMapping
+    public void updateAdmin(@RequestBody AdminDto adminDto) {
+        log.info("更新管理员列表 -> ");
+        // 更新
+        adminService.updateById(BeanUtils.copyBean(adminDto, Administrator.class));
+    }
+
+
+
+}

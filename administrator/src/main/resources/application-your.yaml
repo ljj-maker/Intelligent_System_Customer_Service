@@ -1,0 +1,7 @@
+icss:
+  db:
+    name: your database name
+    host: your database host
+    pw: your database password
+  cloud:
+    addr: your cloud address
