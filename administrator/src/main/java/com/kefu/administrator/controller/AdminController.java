@@ -1,8 +1,8 @@
 package com.kefu.administrator.controller;
 
-import com.kefu.administrator.domain.dto.AdminDto;
+import com.kefu.administrator.domain.dto.AdminDTO;
 import com.kefu.administrator.domain.po.Administrator;
-import com.kefu.administrator.domain.vo.AdminVo;
+import com.kefu.administrator.domain.vo.AdminVO;
 import com.kefu.administrator.service.AdminService;
 import com.kefu.icsscommon.utils.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ public class AdminController {
 
     @Operation(summary = "新增管理员列表")
     @PostMapping
-    public void saveAdmin(@RequestBody AdminDto adminDto) {
+    public void saveAdmin(@RequestBody AdminDTO adminDto) {
         log.info("新增管理员列表 -> ");
         // 新增
         adminService.save(BeanUtils.copyBean(adminDto, Administrator.class));
@@ -38,15 +38,15 @@ public class AdminController {
 
     @Operation(summary = "查询管理员列表")
     @GetMapping("/{id}")
-    public AdminVo queryAdminById(@PathVariable Long id) {
+    public AdminVO queryAdminById(@PathVariable Long id) {
         log.info("查询管理员列表 -> ");
         // 查询
-        return BeanUtils.copyBean(adminService.getById(id), AdminVo.class);
+        return BeanUtils.copyBean(adminService.getById(id), AdminVO.class);
     }
 
     @Operation(summary = "更新管理员列表")
     @PutMapping
-    public void updateAdmin(@RequestBody AdminDto adminDto) {
+    public void updateAdmin(@RequestBody AdminDTO adminDto) {
         log.info("更新管理员列表 -> ");
         // 更新
         adminService.updateById(BeanUtils.copyBean(adminDto, Administrator.class));

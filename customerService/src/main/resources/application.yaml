@@ -1,8 +1,8 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   application:
-    name: administrator # 微服务名称
+    name: customerService # 微服务名称
   profiles:
     active: dev
   datasource:
@@ -33,12 +33,12 @@ logging:
 knife4j:
   enable: true
   openapi:
-    title: 客服系统管理员接口文档
-    description: "客服系统管理员接口文档"
+    title: 客服系统客服接口文档
+    description: "客服系统客服接口文档"
     version: v1.0.0
     group:
       default:
         group-name: default
         api-rule: package
         api-rule-resources:
-          - com.kefu.administrator.controller
+          - com.kefu.customerService.controller

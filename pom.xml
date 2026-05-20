@@ -6,7 +6,7 @@
     <groupId>com.kefu</groupId>
     <artifactId>icss</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <modules>
         <module>icss-common</module>
