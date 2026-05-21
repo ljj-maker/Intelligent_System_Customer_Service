@@ -1,7 +1,7 @@
-package com.kefu.customerService.service;
+package com.kefu.administrator.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kefu.customerService.domain.po.CustomerService;
+import com.kefu.administrator.domain.po.CustomerService;
 
 public interface CustomerServiceService extends IService<CustomerService> {
 }

@@ -1,7 +1,7 @@
-package com.kefu.customerService.mapper;
+package com.kefu.administrator.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kefu.customerService.domain.po.CustomerService;
+import com.kefu.administrator.domain.po.CustomerService;
 
 public interface CustomerServiceMapper extends BaseMapper<CustomerService> {
 }

@@ -1,4 +1,4 @@
-package com.kefu.customerService.domain.po;
+package com.kefu.administrator.domain.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

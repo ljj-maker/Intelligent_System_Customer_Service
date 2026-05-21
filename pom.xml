@@ -6,7 +6,9 @@
     <groupId>com.kefu</groupId>
     <artifactId>icss</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2-SNAPSHOT</version>
+
+    <version>${revision}</version>
+
 
     <modules>
         <module>icss-common</module>
@@ -22,6 +24,8 @@
 
 
     <properties>
+        <revision>0.0.6-SNAPSHOT</revision>
+        
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
