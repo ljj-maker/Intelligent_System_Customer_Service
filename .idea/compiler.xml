@@ -10,6 +10,7 @@
         <module name="user" />
         <module name="customerService" />
         <module name="icss-common" />
+        <module name="dialogue" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="21" />
@@ -18,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="administrator" options="-parameters" />
       <module name="customerService" options="-parameters" />
+      <module name="dialogue" options="-parameters" />
       <module name="icss" options="" />
       <module name="icss-common" options="-parameters" />
       <module name="user" options="-parameters" />
