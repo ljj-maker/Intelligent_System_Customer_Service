@@ -3,6 +3,7 @@ package com.kefu.administrator.controller;
 import com.kefu.administrator.domain.dto.AdminDTO;
 import com.kefu.administrator.domain.po.Administrator;
 import com.kefu.administrator.domain.vo.AdminVO;
+import com.kefu.administrator.domain.vo.PageResult;
 import com.kefu.administrator.service.AdminService;
 import com.kefu.icsscommon.utils.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +21,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @Operation(summary = "新增管理员列表")
+    @Operation(summary = "新增管理员")
     @PostMapping
     public void saveAdmin(@RequestBody AdminDTO adminDto) {
         log.info("新增管理员列表 -> ");
@@ -31,20 +32,20 @@ public class AdminController {
     @Operation(summary = "删除管理员")
     @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable Long id) {
-        log.info("删除管理员 -> ");
+        log.info("软删除管理员 -> id={}", id);
         // 删除
         adminService.removeById(id);
     }
 
-    @Operation(summary = "查询管理员列表")
+    @Operation(summary = "查询管理员")
     @GetMapping("/{id}")
     public AdminVO queryAdminById(@PathVariable Long id) {
-        log.info("查询管理员列表 -> ");
+        log.info("查询管理员 -> ");
         // 查询
-        return BeanUtils.copyBean(adminService.getById(id), AdminVO.class);
+        return adminService.selectByIdIgnoreDeleted(id);
     }
 
-    @Operation(summary = "更新管理员列表")
+    @Operation(summary = "更新管理员")
     @PutMapping
     public void updateAdmin(@RequestBody AdminDTO adminDto) {
         log.info("更新管理员列表 -> ");
@@ -52,6 +53,15 @@ public class AdminController {
         adminService.updateById(BeanUtils.copyBean(adminDto, Administrator.class));
     }
 
-
+    @Operation(summary = "分页查询管理员列表")
+    @GetMapping
+    public PageResult<AdminVO> list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer gender,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
+        return adminService.pageQuery(name, gender, status, page, pageSize);
+    }
 
 }

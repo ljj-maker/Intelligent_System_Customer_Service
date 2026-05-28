@@ -15,7 +15,7 @@ public class ChatMessageVO {
     private Long userId;
 
     @Schema(description = "客服id，0机器人/系统通知")
-    private Integer staffId;
+    private Long staffId;
 
     @Schema(description = "发送人，1用户，2客服，3机器人，4系统消息")
     private Integer senderType;

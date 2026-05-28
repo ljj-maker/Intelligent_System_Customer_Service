@@ -99,7 +99,7 @@ DROP TABLE IF EXISTS `chat_message`;
 CREATE TABLE `chat_message` (
     `id`              BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
     `user_id`         BIGINT UNSIGNED NOT NULL COMMENT '用户id',
-    `staff_id`        TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '客服id: 0机器人/系统通知',
+    `staff_id`        BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '客服id: 0机器人/系统通知',
     `sender_type`     TINYINT UNSIGNED NOT NULL COMMENT '发送人: 1用户, 2客服, 3机器人, 4系统消息',
     `sender_name`     VARCHAR(20) COMMENT '发送者名称',
     `sender_avatar`   VARCHAR(255) COMMENT '发送者头像',

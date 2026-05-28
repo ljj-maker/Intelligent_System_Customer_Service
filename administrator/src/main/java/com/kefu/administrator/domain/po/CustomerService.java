@@ -1,8 +1,6 @@
 package com.kefu.administrator.domain.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -100,5 +98,6 @@ public class CustomerService {
     /**
      * 是否注销 0正常 1删除
      */
+    @TableLogic
     private Integer isDeleted;
 }

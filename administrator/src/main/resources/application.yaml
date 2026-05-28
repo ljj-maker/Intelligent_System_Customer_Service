@@ -21,6 +21,9 @@ mybatis-plus:
     default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
   global-config:
     db-config:
+      logic-delete-field: isDeleted   # 全局逻辑删除字段名
+      logic-delete-value: 1            # 删除标记值
+      logic-not-delete-value: 0        # 未删除标记值
       update-strategy: not_null
       id-type: auto
 logging:

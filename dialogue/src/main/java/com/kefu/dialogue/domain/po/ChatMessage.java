@@ -1,8 +1,6 @@
 package com.kefu.dialogue.domain.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,7 +27,7 @@ public class ChatMessage {
     /**
      * 客服id: 0机器人/系统通知
      */
-    private Integer staffId;
+    private Long staffId;
 
     /**
      * 发送人: 1用户, 2客服, 3机器人, 4系统消息
@@ -84,6 +82,7 @@ public class ChatMessage {
     /**
      * 是否撤回: 0正常, 1撤回
      */
+    @TableLogic
     private Integer isRecalled;
 
     /**

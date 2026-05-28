@@ -12,7 +12,7 @@ public class ChatMessageDTO {
     private Long userId;
 
     @Schema(description = "客服id")
-    private Integer staffId;
+    private Long staffId;
 
     @Schema(description = "发送者名称")
     private String username;

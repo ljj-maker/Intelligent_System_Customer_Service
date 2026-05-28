@@ -3,6 +3,7 @@ package com.kefu.administrator.controller;
 import com.kefu.administrator.domain.dto.CustomerServiceDTO;
 import com.kefu.administrator.domain.po.CustomerService;
 import com.kefu.administrator.domain.vo.CustomerServiceVO;
+import com.kefu.administrator.domain.vo.PageResult;
 import com.kefu.administrator.service.CustomerServiceService;
 import com.kefu.icsscommon.utils.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +31,7 @@ public class CustomerServiceController {
     @Operation(summary = "删除客服")
     @DeleteMapping("/{id}")
     public void deleteService(@PathVariable Long id) {
-        log.info("删除客服 -> ");
+        log.info("软删除客服 -> id={}", id);
         customerServiceService.removeById(id);
     }
 
@@ -38,7 +39,7 @@ public class CustomerServiceController {
     @GetMapping("/{id}")
     public CustomerServiceVO queryService(@PathVariable Long id) {
         log.info("查询客服 -> ");
-        return BeanUtils.copyBean(customerServiceService.getById(id), CustomerServiceVO.class);
+        return customerServiceService.selectByIdIgnoreDeleted(id);
     }
 
     @Operation(summary = "更新客服")
@@ -46,5 +47,17 @@ public class CustomerServiceController {
     public void updateService(@RequestBody CustomerServiceDTO customerServiceDTO) {
         log.info("更新客服 -> ");
         customerServiceService.updateById(BeanUtils.copyBean(customerServiceDTO, CustomerService.class));
+    }
+
+    @Operation(summary = "分页查询客服列表")
+    @GetMapping
+    public PageResult<CustomerServiceVO> list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer gender,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Integer level,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
+        return customerServiceService.pageQuery(name, gender, status, level, page, pageSize);
     }
 }
