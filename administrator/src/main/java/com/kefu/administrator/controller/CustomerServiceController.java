@@ -3,8 +3,8 @@ package com.kefu.administrator.controller;
 import com.kefu.administrator.domain.dto.CustomerServiceDTO;
 import com.kefu.administrator.domain.po.CustomerService;
 import com.kefu.administrator.domain.vo.CustomerServiceVO;
-import com.kefu.administrator.domain.vo.PageResult;
 import com.kefu.administrator.service.CustomerServiceService;
+import com.kefu.icsscommon.domain.PageResult;
 import com.kefu.icsscommon.utils.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +25,7 @@ public class CustomerServiceController {
     @PostMapping
     public void saveService(@RequestBody CustomerServiceDTO customerServiceDTO) {
         log.info("新增客服 -> ");
-        customerServiceService.save(BeanUtils.copyBean(customerServiceDTO, CustomerService.class));
+        customerServiceService.saveStaff(customerServiceDTO);
     }
 
     @Operation(summary = "删除客服")

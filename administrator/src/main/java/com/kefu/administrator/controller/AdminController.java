@@ -1,15 +1,18 @@
 package com.kefu.administrator.controller;
 
 import com.kefu.administrator.domain.dto.AdminDTO;
+import com.kefu.administrator.domain.dto.LoginFormDTO;
 import com.kefu.administrator.domain.po.Administrator;
+import com.kefu.administrator.domain.vo.AdminLoginVO;
 import com.kefu.administrator.domain.vo.AdminVO;
-import com.kefu.administrator.domain.vo.PageResult;
 import com.kefu.administrator.service.AdminService;
+import com.kefu.icsscommon.domain.PageResult;
 import com.kefu.icsscommon.utils.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "管理员相关接口")
@@ -21,12 +24,18 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @Operation(summary = "登录")
+    @PostMapping("login")
+    public AdminLoginVO login(@RequestBody @Validated LoginFormDTO loginFormDTO) {
+        return adminService.login(loginFormDTO);
+    }
+
     @Operation(summary = "新增管理员")
     @PostMapping
     public void saveAdmin(@RequestBody AdminDTO adminDto) {
         log.info("新增管理员列表 -> ");
         // 新增
-        adminService.save(BeanUtils.copyBean(adminDto, Administrator.class));
+        adminService.saveAdmin(adminDto);
     }
 
     @Operation(summary = "删除管理员")

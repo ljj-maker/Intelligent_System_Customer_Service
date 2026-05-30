@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8086
 spring:
   application:
     name: administrator # 微服务名称
@@ -13,8 +13,6 @@ spring:
   cloud:
     nacos:
       server-addr: ${icss.cloud.addr}
-      discovery:
-        enabled: false
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -45,3 +43,10 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.kefu.administrator.controller
+
+kefu:
+  jwt:
+    location: classpath:kefu.jks
+    alias: kefu
+    password: kefu123
+    tokenTTL: 30m

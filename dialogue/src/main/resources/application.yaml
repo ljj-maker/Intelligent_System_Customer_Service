@@ -13,8 +13,6 @@ spring:
   cloud:
     nacos:
       server-addr: ${icss.cloud.addr}
-      discovery:
-        enabled: false
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -45,3 +43,10 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.kefu.dialogue.controller
+
+kefu:
+  jwt:
+    location: classpath:kefu.jks
+    alias: kefu
+    password: kefu123
+    tokenTTL: 60m

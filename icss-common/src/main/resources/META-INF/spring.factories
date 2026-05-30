@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.kefu.icsscommon.config.JsonConfig,\
-  com.kefu.icsscommon.config.MybatisPlusConfig
+com.kefu.icsscommon.config.JsonConfig,\
+com.kefu.icsscommon.config.SecurityConfig,\
+com.kefu.icsscommon.utils.JwtTool,\
+com.kefu.icsscommon.config.MvcConfig

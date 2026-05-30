@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kefu.administrator.domain.dto.CustomerServiceDTO;
 import com.kefu.administrator.domain.po.CustomerService;
 import com.kefu.administrator.domain.vo.CustomerServiceVO;
-import com.kefu.administrator.domain.vo.PageResult;
 import com.kefu.administrator.mapper.CustomerServiceMapper;
 import com.kefu.administrator.service.CustomerServiceService;
+import com.kefu.icsscommon.domain.PageResult;
 import com.kefu.icsscommon.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,14 @@ import java.util.List;
 public class CustomerServiceServiceImpl extends ServiceImpl<CustomerServiceMapper, CustomerService> implements CustomerServiceService {
 
     private final CustomerServiceMapper customerServiceMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public void saveStaff(CustomerServiceDTO customerServiceDTO) {
+        CustomerService customerService = BeanUtils.copyBean(customerServiceDTO, CustomerService.class);
+        customerService.setPassword(passwordEncoder.encode(customerServiceDTO.getPassword()));
+        save(customerService);
+    }
 
     @Override
     public PageResult<CustomerServiceVO> pageQuery(String name, Integer gender, Integer status, Integer level, Integer page, Integer pageSize) {

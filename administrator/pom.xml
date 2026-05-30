@@ -21,6 +21,12 @@
 
 
     <dependencies>
+        <!--usr/user-dto-->
+        <dependency>
+            <groupId>com.kefu</groupId>
+            <artifactId>user-domain</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!--common-->
         <dependency>
             <groupId>com.kefu</groupId>
@@ -46,6 +52,16 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--openFeign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--负载均衡器-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
     </dependencies>
 

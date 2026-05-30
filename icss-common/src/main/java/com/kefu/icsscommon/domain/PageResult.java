@@ -1,4 +1,4 @@
-package com.kefu.administrator.domain.vo;
+package com.kefu.icsscommon.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

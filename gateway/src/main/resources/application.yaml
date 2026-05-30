@@ -1,0 +1,38 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: administrator
+          uri: lb://administrator
+          predicates:
+            - Path=/admin/administrator/**,/admin/staff/**,/admin/user/**
+        - id: customerService
+          uri: lb://customerService
+          predicates:
+            - Path=/service/service/**,/service/relationship/**
+        - id: dialogue
+          uri: lb://dialogue
+          predicates:
+            - Path=/dialogue/service/**,/dialogue/user/**
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/user/user/**
+
+kefu:
+  jwt:
+    location: classpath:kefu.jks
+    alias: kefu
+    password: kefu123
+    tokenTTL: 60m
+  auth:
+    excludePaths:
+      - /admin/administrator/login
+      - /service/service/login
+      - /user/user/login

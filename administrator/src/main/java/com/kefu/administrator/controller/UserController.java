@@ -1,8 +1,10 @@
 package com.kefu.administrator.controller;
 
-import com.kefu.administrator.domain.vo.PageResult;
-import com.kefu.administrator.domain.vo.UserVO;
+
 import com.kefu.administrator.service.UserService;
+import com.kefu.icsscommon.domain.PageResult;
+import com.kefu.icsscommon.utils.UserContext;
+import com.kefu.userdto.domain.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,15 @@ public class UserController {
             @RequestParam(required = false) Integer status,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize) {
+        log.info("查询用户列表 -> ");
+        System.out.println(UserContext.getUser());
         return userService.pageQuery(username, phone, gender, status, page, pageSize);
+    }
+
+    @Operation(summary = "根据id查询用户")
+    @GetMapping("/{id}")
+    public UserVO queryUser(@PathVariable Long id) {
+        log.info("查询用户 -> ");
+        return userService.queryUser(id);
     }
 }
