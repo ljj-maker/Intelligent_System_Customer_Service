@@ -16,4 +16,8 @@ public interface UserService extends IService<User> {
     UserLoginVO login(LoginFormDTO loginFormDTO);
 
     void saveUser(UserDTO userDTO);
+
+    void removeUserById(Long id);
+
+    void updateUserById(UserDTO userDTO);
 }

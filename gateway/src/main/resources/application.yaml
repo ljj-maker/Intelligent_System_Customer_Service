@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 18080
 spring:
   application:
     name: gateway
@@ -24,6 +24,19 @@ spring:
           uri: lb://user
           predicates:
             - Path=/user/user/**
+        - id: bot
+          uri: lb://bot
+          predicates:
+            - Path=/bot/chat/**
+
+        - id: customerService-ws
+          uri: lb:ws://customerService
+          predicates:
+            - Path=/service/websocket/**
+        - id: user-ws
+          uri: lb:ws://dialogue
+          predicates:
+            - Path=/user/websocket/**
 
 kefu:
   jwt:
@@ -36,3 +49,6 @@ kefu:
       - /admin/administrator/login
       - /service/service/login
       - /user/user/login
+      - /user/user/register
+      - /user/websocket/**
+      - /service/websocket/**

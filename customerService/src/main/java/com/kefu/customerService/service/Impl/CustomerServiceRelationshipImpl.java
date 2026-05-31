@@ -8,14 +8,19 @@ import com.kefu.customerService.domain.vo.ServiceRelationshipVO;
 import com.kefu.customerService.mapper.CustomerServiceRelationshipMapper;
 import com.kefu.customerService.service.CustomerServiceRelationshipService;
 import com.kefu.icsscommon.utils.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CustomerServiceRelationshipImpl extends ServiceImpl<CustomerServiceRelationshipMapper, ServiceRelationship> implements CustomerServiceRelationshipService {
 
+    /*
+    * 查询关系列表
+    * */
     @Override
     public RelationListResult listByStaffId(Long staffId) {
         // 1.构建条件根据id查询关系列表
@@ -32,5 +37,18 @@ public class CustomerServiceRelationshipImpl extends ServiceImpl<CustomerService
 
         // 4.封装返回
         return new RelationListResult((long)rows.size(), rows);
+    }
+
+    @Override
+    public void saveRelationship(ServiceRelationship serviceRelationship) {
+        try {
+            boolean saved = this.save(serviceRelationship);
+
+            if (saved) {
+                log.info("保存关系成功");
+            }
+        } catch (Exception e) {
+            log.info("关系已存在");
+        }
     }
 }

@@ -24,12 +24,20 @@ public class UserDialogueController {
 
     private final DialogueService dialogueService;
 
+    @Operation(summary = "保存与人工交流的用户对话")
+    @PostMapping("/message")
+    public void saveUserMessage(@RequestBody ChatMessageDTO chatMessageDto) {
+        log.info("保存用户与客服对话 -> ");
+        dialogueService.saveUserMessage(chatMessageDto);
+    }
+
     @Operation(summary = "保存用户对话")
     @PostMapping
     public void saveUserDialogue(@RequestBody ChatMessageDTO chatMessageDto) {
         log.info("保存用户对话 -> ");
+        Integer senderType = 1;
         // 新增
-        dialogueService.save(BeanUtils.copyBean(chatMessageDto, ChatMessage.class).setSenderType(1).setSendTime(LocalDateTime.now()));
+        dialogueService.saveDialogue(chatMessageDto, senderType);
     }
 
     @Operation(summary = "撤销用户对话")

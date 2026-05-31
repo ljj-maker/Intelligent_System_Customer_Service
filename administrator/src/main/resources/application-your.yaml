@@ -1,6 +1,7 @@
 icss:
   db:
     name: your database name
+    username: your database username
     host: your database host
     pw: your database password
   cloud:

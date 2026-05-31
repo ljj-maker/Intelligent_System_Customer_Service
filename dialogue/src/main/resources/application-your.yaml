@@ -1,7 +1,12 @@
 icss:
   db:
     name: your database name
+    username: your database username
     host: your database host
     pw: your database password
   cloud:
     addr: your cloud address
+  redis:
+    host: your redis host
+    port: your redis port
+    pw: your redis password

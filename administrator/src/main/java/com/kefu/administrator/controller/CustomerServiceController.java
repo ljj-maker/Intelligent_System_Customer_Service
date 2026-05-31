@@ -2,6 +2,7 @@ package com.kefu.administrator.controller;
 
 import com.kefu.administrator.domain.dto.CustomerServiceDTO;
 import com.kefu.administrator.domain.po.CustomerService;
+import com.kefu.administrator.domain.vo.CsInfo;
 import com.kefu.administrator.domain.vo.CustomerServiceVO;
 import com.kefu.administrator.service.CustomerServiceService;
 import com.kefu.icsscommon.domain.PageResult;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Tag(name="客服相关接口")
@@ -32,7 +35,7 @@ public class CustomerServiceController {
     @DeleteMapping("/{id}")
     public void deleteService(@PathVariable Long id) {
         log.info("软删除客服 -> id={}", id);
-        customerServiceService.removeById(id);
+        customerServiceService.removeCSById(id);
     }
 
     @Operation(summary = "查询客服")
@@ -46,7 +49,7 @@ public class CustomerServiceController {
     @PutMapping
     public void updateService(@RequestBody CustomerServiceDTO customerServiceDTO) {
         log.info("更新客服 -> ");
-        customerServiceService.updateById(BeanUtils.copyBean(customerServiceDTO, CustomerService.class));
+        customerServiceService.updateCSById(customerServiceDTO);
     }
 
     @Operation(summary = "分页查询客服列表")
@@ -59,5 +62,17 @@ public class CustomerServiceController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize) {
         return customerServiceService.pageQuery(name, gender, status, level, page, pageSize);
+    }
+
+    @Operation(summary = "获取客服在线详情")
+    @GetMapping("info")
+    public CsInfo getCsInfo(@RequestParam Long csId) {
+        return customerServiceService.getCsInfo(csId);
+    }
+
+    @Operation(summary = "获取所有在线客服")
+    @GetMapping("onlineCSList")
+    public List<Long> getCsList() {
+        return customerServiceService.getCsList();
     }
 }

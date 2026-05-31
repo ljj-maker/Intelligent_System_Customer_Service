@@ -1,6 +1,7 @@
 package com.kefu.user.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -31,11 +33,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final PasswordEncoder passwordEncoder;
     private final JwtTool jwtTool;
     private final JwtProperties jwtProperties;
+    private final UserMapper userMapper;
 
     @Override
     public void saveUser(UserDTO userDTO) {
         User user = BeanUtils.copyBean(userDTO, User.class);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setCreateTime(LocalDateTime.now());
+        user.setUpdateTime(LocalDateTime.now());
         save(user);
     }
 
@@ -90,5 +95,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 5.封装返回
         System.out.println(pageResult.getTotal());
         return new PageResult<UserVO>(pageResult.getTotal(), rows);
+    }
+
+    @Override
+    public void removeUserById(Long id) {
+        LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(User::getId, id)
+                .set(User::getUpdateTime, LocalDateTime.now())
+                .set(User::getIsDeleted, 1);
+        userMapper.update(null, wrapper);
+    }
+
+    @Override
+    public void updateUserById(UserDTO userDTO) {
+        User user = BeanUtils.copyBean(userDTO, User.class);
+        user.setUpdateTime(LocalDateTime.now());
+        this.updateById(user);
     }
 }

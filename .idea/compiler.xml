@@ -9,6 +9,7 @@
         <module name="administrator" />
         <module name="user-domain" />
         <module name="customerService" />
+        <module name="bot" />
         <module name="dialogue" />
         <module name="user" />
         <module name="icss-common" />
@@ -22,6 +23,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="administrator" options="-parameters" />
+      <module name="bot" options="-parameters" />
       <module name="customerService" options="-parameters" />
       <module name="dialogue" options="-parameters" />
       <module name="gateway" options="-parameters" />

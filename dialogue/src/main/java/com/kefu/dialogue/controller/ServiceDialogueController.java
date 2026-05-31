@@ -6,6 +6,7 @@ import com.kefu.dialogue.domain.po.ChatQueryParam;
 import com.kefu.dialogue.domain.vo.ChatListResult;
 import com.kefu.dialogue.service.DialogueService;
 import com.kefu.icsscommon.utils.BeanUtils;
+import com.kefu.icsscommon.utils.UserContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,8 +29,10 @@ public class ServiceDialogueController {
     @PostMapping
     public void saveServiceDialogue(@RequestBody ChatMessageDTO chatMessageDto) {
         log.info("保存客服对话 -> ");
+        chatMessageDto.setStaffId(UserContext.getUser());
+        Integer senderType = 2;
         // 新增
-        dialogueService.save(BeanUtils.copyBean(chatMessageDto, ChatMessage.class).setSenderType(2).setSendTime(LocalDateTime.now()));
+        dialogueService.saveServiceDialogue(chatMessageDto, senderType);
     }
 
     @Operation(summary = "撤销客服对话")
@@ -37,7 +40,7 @@ public class ServiceDialogueController {
     public void deleteServiceDialogue(@PathVariable Long id) {
         log.info("删除客服对话 -> ");
         // 删除
-        dialogueService.removeById(id);
+        dialogueService.removeDialogueById(id);
     }
 
     @Operation(summary = "查询客服对话列表")

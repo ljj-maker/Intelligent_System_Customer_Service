@@ -17,7 +17,9 @@ import com.kefu.icsscommon.exception.BadRequestException;
 import com.kefu.icsscommon.exception.ForbiddenException;
 import com.kefu.icsscommon.utils.BeanUtils;
 import com.kefu.icsscommon.utils.JwtTool;
+import com.kefu.icsscommon.utils.UserContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Administrator> implements AdminService {
@@ -34,22 +37,31 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Administrator> im
     private final JwtTool jwtTool;
     private final JwtProperties jwtProperties;
 
+    /*
+    * 保存管理员账号
+    * */
     @Override
     public void saveAdmin(AdminDTO adminDto) {
         Administrator administrator = BeanUtils.copyBean(adminDto, Administrator.class);
+        // 将收到的密码加密
         administrator.setPassword(passwordEncoder.encode(adminDto.getPassword()));
+        // 存储到数据库
         save(administrator);
     }
 
+    /*
+    * 管理员登录
+    * */
     @Override
     public AdminLoginVO login(LoginFormDTO loginFormDTO) {
-        // 1.数据校验
+        // 1.获取前端传来的用户名和密码
         String username = loginFormDTO.getUsername();
         String password = loginFormDTO.getPassword();
         // 2.根据用户名查询
         Administrator administrator = lambdaQuery().eq(Administrator::getUsername, username).one();
+        // 检查用户名是否存在
         Assert.notNull(administrator, "用户名错误");
-        // 3.校验是否禁用
+        // 3.校验账号是否禁用
         if (administrator.getStatus() == 2) {
             throw new ForbiddenException("用户被冻结");
         }
@@ -64,9 +76,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Administrator> im
         vo.setAdminId(administrator.getId());
         vo.setUsername(administrator.getUsername());
         vo.setToken(token);
+        log.info("管理员登录 -> id:{}", administrator.getId());
         return vo;
     }
 
+    /*
+    * 分页查询管理员列表
+    * */
     @Override
     public PageResult<AdminVO> pageQuery(String name, Integer gender, Integer status, Integer page, Integer pageSize) {
 
@@ -75,10 +91,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Administrator> im
 
         // 2.构建查询条件
         LambdaQueryWrapper<Administrator> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(StringUtils.isNotBlank(name), Administrator::getName, name)
-                .eq(gender != null, Administrator::getGender,gender)
-                .eq(status != null, Administrator::getStatus, status)
-                .orderByAsc(Administrator::getId);
+        wrapper.like(StringUtils.isNotBlank(name), Administrator::getName, name)    // 模糊查询，且非空
+                .eq(gender != null, Administrator::getGender,gender)       // 匹配性别
+                .eq(status != null, Administrator::getStatus, status)      // 匹配账号状态
+                .orderByAsc(Administrator::getId);                                  // 根据id升序
 
         // 3.查询
         Page<Administrator> pageResult = this.page(pageParam, wrapper);
@@ -92,8 +108,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Administrator> im
         return new PageResult<AdminVO>(pageResult.getTotal(), rows);
     }
 
+    /*
+    * 查询管理员详情
+    * */
     @Override
     public AdminVO selectByIdIgnoreDeleted(Long id) {
+        log.info("{}查询管理员{}", UserContext.getUser(), id);
         return BeanUtils.copyBean(adminMapper.selectByIdIgnoreDeleted(id), AdminVO.class);
     }
 }

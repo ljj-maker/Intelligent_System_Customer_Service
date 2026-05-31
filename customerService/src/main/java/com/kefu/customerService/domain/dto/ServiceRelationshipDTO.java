@@ -11,5 +11,5 @@ public class ServiceRelationshipDTO {
     private Long userId;
 
     @Schema(description = "客服id")
-    private Integer staffId;
+    private Long staffId;
 }

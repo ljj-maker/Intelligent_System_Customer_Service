@@ -4,7 +4,6 @@ import com.kefu.gateway.config.AuthProperties;
 import com.kefu.icsscommon.exception.UnauthorizedException;
 import com.kefu.icsscommon.utils.JwtTool;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

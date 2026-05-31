@@ -25,7 +25,7 @@ public class CustomerServiceRelationshipController {
     public void saveCustomerServiceRelationship(@RequestBody ServiceRelationshipDTO serviceRelationshipDto) {
         log.info("保存客服服务关系 -> ");
         // 新增
-        customerServiceRelationshipService.save(BeanUtils.copyBean(serviceRelationshipDto, ServiceRelationship.class));
+        customerServiceRelationshipService.saveRelationship(BeanUtils.copyBean(serviceRelationshipDto, ServiceRelationship.class));
     }
 
     @Operation(summary = "查询客服服务关系")

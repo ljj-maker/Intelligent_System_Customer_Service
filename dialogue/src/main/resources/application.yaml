@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 18085
 spring:
   application:
     name: dialogue # 微服务名称
@@ -8,11 +8,15 @@ spring:
   datasource:
     url: jdbc:mysql://${icss.db.host}:3306/${icss.db.name}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    username: ${icss.db.username}
     password: ${icss.db.pw}
   cloud:
     nacos:
       server-addr: ${icss.cloud.addr}
+  redis:
+    host: ${icss.redis.host}
+    port: ${icss.redis.port}
+    password: ${icss.redis.pw}
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

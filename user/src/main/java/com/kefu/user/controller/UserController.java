@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @Operation(summary = "新增用户")
-    @PostMapping
+    @PostMapping("register")
     public void saveUser(@RequestBody UserDTO userDTO) {
         log.info("新增用户 -> ");
         userService.saveUser(userDTO);
@@ -42,7 +42,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         log.info("删除用户 -> ");
-        userService.removeById(id);
+        userService.removeUserById(id);
     }
 
     @Operation(summary = "查询用户")
@@ -56,7 +56,7 @@ public class UserController {
     @PutMapping
     public void updateUser(@RequestBody UserDTO userDTO) {
         log.info("更新用户 -> ");
-        userService.updateById(BeanUtils.copyBean(userDTO, User.class));
+        userService.updateUserById(userDTO);
     }
 
     @Operation(summary = "查询用户列表")

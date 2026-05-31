@@ -40,4 +40,5 @@ public class UserController {
         log.info("查询用户 -> ");
         return userService.queryUser(id);
     }
+
 }

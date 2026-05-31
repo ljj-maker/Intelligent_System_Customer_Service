@@ -27,13 +27,14 @@ public class AdminController {
     @Operation(summary = "登录")
     @PostMapping("login")
     public AdminLoginVO login(@RequestBody @Validated LoginFormDTO loginFormDTO) {
+        log.info("管理员{}登录 -> ", loginFormDTO.getUsername());
         return adminService.login(loginFormDTO);
     }
 
     @Operation(summary = "新增管理员")
     @PostMapping
     public void saveAdmin(@RequestBody AdminDTO adminDto) {
-        log.info("新增管理员列表 -> ");
+        log.info("新增管理员 -> ");
         // 新增
         adminService.saveAdmin(adminDto);
     }
@@ -41,7 +42,7 @@ public class AdminController {
     @Operation(summary = "删除管理员")
     @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable Long id) {
-        log.info("软删除管理员 -> id={}", id);
+        log.info("逻辑删除管理员 -> id={}", id);
         // 删除
         adminService.removeById(id);
     }
@@ -70,6 +71,7 @@ public class AdminController {
             @RequestParam(required = false) Integer status,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize) {
+        log.info("分页查询管理员列表 -> ");
         return adminService.pageQuery(name, gender, status, page, pageSize);
     }
 
