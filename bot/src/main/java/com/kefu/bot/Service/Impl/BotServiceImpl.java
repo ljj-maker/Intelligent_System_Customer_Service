@@ -9,12 +9,15 @@ import com.kefu.bot.domain.po.ChatMessage;
 import com.kefu.bot.domain.vo.ChatMessageVO;
 import com.kefu.icsscommon.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BotServiceImpl implements BotService {
@@ -22,6 +25,7 @@ public class BotServiceImpl implements BotService {
     private final Dialogue dialogue;
     private final StringRedisTemplate redisTemplate;
     private final CSRelationship csRelationship;
+    private final RabbitTemplate rabbitTemplate;
 
     /*
     * 处理对话请求
@@ -87,11 +91,20 @@ public class BotServiceImpl implements BotService {
             }
             // 3.建立服务关系，并存储到redis
             redisTemplate.opsForValue().set(relationKey, csId, 30, TimeUnit.MINUTES);
-            // 4.保存客服关系到数据库
+            //  异步调用 4.保存客服关系到数据库
             ServiceRelationshipDTO serviceRelationshipDto = new ServiceRelationshipDTO();
             serviceRelationshipDto.setUserId(chatMessageDto.getUserId());
             serviceRelationshipDto.setStaffId(Long.valueOf(csId));
-            csRelationship.saveCustomerServiceRelationship(serviceRelationshipDto);
+//            // 同步保存到数据库
+//            csRelationship.saveCustomerServiceRelationship(serviceRelationshipDto);
+            // 异步保存到数据库
+            try {
+                rabbitTemplate.convertAndSend("CS.direct", "save.relationship", serviceRelationshipDto);
+            } catch (Exception e) {
+                log.info("异步保存客服关系失败");
+            }
+
+
         }
         // 6.返回msgType=3,让前端收到后将http请求改为dialogue接口，以及建立websocket连接到dialogue模块的ws//user/websocket/{userId}
         ChatMessageVO vo = new ChatMessageVO();

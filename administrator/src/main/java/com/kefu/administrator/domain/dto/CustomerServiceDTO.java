@@ -1,5 +1,6 @@
 package com.kefu.administrator.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class CustomerServiceDTO {
     private Long id;
 
     @Schema(description = "工号")
+    @JsonProperty("staff_no")
     private String staffNo;
 
     @Schema(description = "姓名")

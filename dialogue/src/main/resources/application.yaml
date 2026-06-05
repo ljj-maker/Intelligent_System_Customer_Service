@@ -17,6 +17,12 @@ spring:
     host: ${icss.redis.host}
     port: ${icss.redis.port}
     password: ${icss.redis.pw}
+  rabbitmq:
+    host: ${icss.rabbitmq.host}
+    port: ${icss.rabbitmq.port}
+    virtual-host: /icss
+    username: ${icss.rabbitmq.username}
+    password: ${icss.rabbitmq.pw}
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

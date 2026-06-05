@@ -24,9 +24,7 @@ public class CsWebSocketServer {
     private static final String CS_ONLINE_SET = "cs:online";
     private static final String CS_INFO_PREFIX = "cs:info:";
     private static final ConcurrentHashMap<String, Session> SESSION_MAP = new ConcurrentHashMap<>();
-    // 建议做成静态常量，不要每次发送都 new
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
     static {
         OBJECT_MAPPER.registerModule(new JavaTimeModule());
         // 关键：禁用时间戳，改为字符串格式
@@ -34,7 +32,7 @@ public class CsWebSocketServer {
     }
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private static StringRedisTemplate redisTemplate;
 
     // 标注链接建立时调用的方法
     @OnOpen
@@ -46,15 +44,11 @@ public class CsWebSocketServer {
     @OnClose
     public void onClose(Session session, @PathParam("csId") String csId) {
         SESSION_MAP.remove(csId);
-        // 将redis的客服在线和客服服务关系删除
-        offline(csId);
     }
 
     @OnError
     public void onError(Session session, @PathParam("csId") String csId, Throwable error) {
         SESSION_MAP.remove(csId);
-        // 将redis的客服在线和客服服务关系删除
-        offline(csId);
     }
 
     public void sendMessage(ChatMessageVO chatMessageVO, String csId) {
@@ -73,17 +67,6 @@ public class CsWebSocketServer {
                 System.out.println("发送消息失败");
             }
         }
-    }
-
-    public void offline(String csId) {
-
-        String infoKey = CS_INFO_PREFIX + csId;
-
-        // 1.从在线集合中移除
-        redisTemplate.opsForSet().remove(CS_ONLINE_SET, csId);
-
-        // 2.删除详情key
-        redisTemplate.delete(infoKey);
     }
 
 }

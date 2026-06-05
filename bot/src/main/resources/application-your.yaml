@@ -10,3 +10,8 @@ icss:
     host: your redis host
     port: your redis port
     pw: your redis password
+  rabbitmq:
+    host: your rabbitmq host
+    port: your rabbitmq port
+    username: your rabbitmq username
+    pw: your rabbitmq password

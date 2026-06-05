@@ -16,6 +16,7 @@ import com.kefu.dialogue.webSocket.UserWebSocketServer;
 import com.kefu.icsscommon.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class DialogueServiceImpl extends ServiceImpl<DialogueMapper, ChatMessage
     private final StringRedisTemplate redisTemplate;
     private final UserWebSocketServer userSessionManager;
     private final CSClient csClient;
+    private final RabbitTemplate rabbitTemplate;
 
     /*
     * 保存客服的对话并通知用户
@@ -50,8 +52,8 @@ public class DialogueServiceImpl extends ServiceImpl<DialogueMapper, ChatMessage
         // 3.推送给用户
         ChatMessageVO vo = BeanUtils.copyBean(chatMessageDto, ChatMessageVO.class);
         vo.setSenderType(senderType);
-
         log.info("{}发送消息给用户：{}", chatMessageDto.getStaffId(), userId);
+        System.out.println(vo);
         userSessionManager.sendMessage(userId, vo);
     }
 
@@ -88,10 +90,17 @@ public class DialogueServiceImpl extends ServiceImpl<DialogueMapper, ChatMessage
         // 2.保存对话
         chatMessageDto.setStaffId(Long.parseLong(csId));
         this.saveDialogue(chatMessageDto, 1);
-        // 3.提醒客服
+        // 异步调用 3.提醒客服
         ChatMessageVO vo = BeanUtils.copyBean(chatMessageDto, ChatMessageVO.class);
         vo.setSenderType(1);
-        csClient.sendMessage(vo);
+//        //同步调用
+//        csClient.sendMessage(vo);
+        // 异步调用
+        try {
+            rabbitTemplate.convertAndSend("CS.direct", "user.message", vo);
+        } catch (Exception e) {
+            log.info("异步提醒客服失败");
+        }
     }
 
     /*
@@ -144,5 +153,7 @@ public class DialogueServiceImpl extends ServiceImpl<DialogueMapper, ChatMessage
                 .set(ChatMessage::getIsRecalled, 1);
 
         this.update(null, wrapper);
+
+        // TODO 推送撤销对话的消息id
     }
 }

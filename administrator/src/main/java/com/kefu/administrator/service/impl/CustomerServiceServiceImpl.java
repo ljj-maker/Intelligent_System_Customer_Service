@@ -47,6 +47,7 @@ public class CustomerServiceServiceImpl extends ServiceImpl<CustomerServiceMappe
         customerService.setCreateTime(LocalDateTime.now());
         customerService.setUpdateTime(LocalDateTime.now());
         // 保存
+        System.out.println(customerService.getStaffNo());
         save(customerService);
     }
 
