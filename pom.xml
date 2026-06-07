@@ -100,14 +100,18 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
 
+    <build>
+    <!-- 用 pluginManagement 统一管理插件版本，不强制所有子模块执行 -->
+    <pluginManagement>
+        <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.12</version>
             </plugin>
         </plugins>
-    </build>
+    </pluginManagement>
+</build>
 
 </project>

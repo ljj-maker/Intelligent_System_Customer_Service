@@ -1,17 +1,17 @@
 icss:
   db:
-    name: your database name
-    username: your database username
-    host: your database host
-    pw: your database password
+    name: icss_db
+    username: root
+    host: 127.0.0.1
+    pw: 1234
   cloud:
-    addr: your cloud address
+    addr: 127.0.0.1:8848
   redis:
-    host: your redis host
-    port: your redis port
-    pw: your redis password
+    host: 127.0.0.1
+    port: 6379
+    pw: 123456
   rabbitmq:
-    host: your rabbitmq host
-    port: your rabbitmq port
-    username: your rabbitmq username
-    pw: your rabbitmq password
+    host: 127.0.0.1
+    port: 5672
+    username: icss
+    pw: 1234

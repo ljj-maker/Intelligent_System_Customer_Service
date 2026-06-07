@@ -3,9 +3,11 @@ server:
 spring:
   application:
     name: gateway
+  profiles:
+    active: dev
   cloud:
     nacos:
-      server-addr: 192.168.100.129:8848
+      server-addr: ${icss.cloud.addr}
     gateway:
       routes:
         - id: administrator
