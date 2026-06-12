@@ -2,9 +2,6 @@
 
 &gt; 基于 Spring Boot + Vue 的在线客服解决方案，支持用户咨询、智能机器应答与人工客服实时转接。
 
-**GitHub:** https://github.com/ljj-maker/icss  
-**线上演示:** http://xxx.xxx.xxx.xxx:xxxx （部署于阿里云包年服务器）
-
 ---
 
 ## 一、项目简介
